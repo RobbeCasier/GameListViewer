@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31613.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameListViewer", "GameListViewer.csproj", "{0BE3E2F8-58DC-49D7-A272-89E4A2DB8AC2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0BE3E2F8-58DC-49D7-A272-89E4A2DB8AC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BE3E2F8-58DC-49D7-A272-89E4A2DB8AC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BE3E2F8-58DC-49D7-A272-89E4A2DB8AC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BE3E2F8-58DC-49D7-A272-89E4A2DB8AC2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3EE124CF-1480-46A0-BD4E-6BE3CE1C8064}
+	EndGlobalSection
+EndGlobal
