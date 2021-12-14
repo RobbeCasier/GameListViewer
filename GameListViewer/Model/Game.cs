@@ -16,7 +16,11 @@ namespace GameListViewer.Model
     public enum Platform
     {
         Steam,
-        Epic
+        Epic,
+        Nintendo,
+        Xbox,
+        PlayStation,
+        Other
     }
 
     public enum AchievementsState

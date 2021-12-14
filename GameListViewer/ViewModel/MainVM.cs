@@ -188,7 +188,7 @@ namespace GameListViewer.ViewModel
         {
             AllGames.Add(NewGame);
             UpdateStats();
-            
+            Sort();
             if (_Ew != null)
             {
                 _Ew.Close();
