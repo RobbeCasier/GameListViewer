@@ -47,3 +47,5 @@ D:\Documents\My Game Projects\GameListViewer\GameListViewer\obj\Debug\GameListVi
 D:\Documents\My Game Projects\GameListViewer\GameListViewer\obj\Debug\GameListViewer.csproj.CopyComplete
 D:\Documents\My Game Projects\GameListViewer\GameListViewer\obj\Debug\GameListViewer.exe
 D:\Documents\My Game Projects\GameListViewer\GameListViewer\obj\Debug\GameListViewer.pdb
+D:\Documents\My Game Projects\GameListViewer\GameListViewer\obj\Debug\Windows\UpdateWindow.g.cs
+D:\Documents\My Game Projects\GameListViewer\GameListViewer\obj\Debug\Windows\UpdateWindow.baml

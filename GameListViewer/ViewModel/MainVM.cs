@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using GameListViewer.Repository;
 using System.IO;
 using GameListViewer.Sorting;
+using System.Windows;
 
 namespace GameListViewer.ViewModel
 {
@@ -38,16 +39,37 @@ namespace GameListViewer.ViewModel
         EntryWindow _Ew;
         UpdateWindow _Uw;
         GamesListRepository _repo = new GamesListRepository();
+        public ObservableCollection<Game> Games { get; set; } = new ObservableCollection<Game>();
         public ObservableCollection<Game> AllGames { get; set; } = new ObservableCollection<Game>();
 
         public int CompletedGames { get; set; }
+        public int EndlessGames { get; set; }
+        public int NotCompletedGames { get; set; }
+
+        private Platform _searchPlatform = Platform.Steam;
+        public Platform SearchPlatform
+        {
+            get
+            {
+                return _searchPlatform;
+            }
+            set
+            {
+                _searchPlatform = value;
+                UpdatePlatformCounter();
+            }
+        }
+        public int PlatformCounter { get; set; } = 0;
+
+        public Visibility FullList { get; set; } = Visibility.Visible;
 
         public MainVM()
         {
             if (_repo.HasVallidList())
             {
-                AllGames = new ObservableCollection<Game>(_repo.GetList());
+                Games = AllGames = new ObservableCollection<Game>(_repo.GetList());
                 UpdateStats();
+                UpdatePlatformCounter();
             }
         }
 
@@ -113,6 +135,35 @@ namespace GameListViewer.ViewModel
             get
             {
                 return new RelayCommand(EditItemEntry);
+            }
+        }
+
+        public RelayCommand CompletedGamesCMD
+        {
+            get
+            {
+                return new RelayCommand(GetCompletedGames);
+            }
+        }
+        public RelayCommand NotCompletedGamesCMD
+        {
+            get
+            {
+                return new RelayCommand(GetNotCompletedGames);
+            }
+        }
+        public RelayCommand EndlessGamesCMD
+        {
+            get
+            {
+                return new RelayCommand(GetEndlessGames);
+            }
+        }
+        public RelayCommand AllGamesCMD
+        {
+            get
+            {
+                return new RelayCommand(GetAllGames);
             }
         }
         #endregion
@@ -215,6 +266,36 @@ namespace GameListViewer.ViewModel
                 _Uw = null;
             }
         }
+        private void GetCompletedGames()
+        {
+            Games = new ObservableCollection<Game>(_repo.GetStateList(CompletionState.Completed));
+            FullList = Visibility.Collapsed;
+            RaisePropertyChanged("FullList");
+            RaisePropertyChanged("Games");
+        }
+
+        private void GetNotCompletedGames()
+        {
+            Games = new ObservableCollection<Game>(_repo.GetStateList(CompletionState.NotCompleted));
+            FullList = Visibility.Collapsed;
+            RaisePropertyChanged("FullList");
+            RaisePropertyChanged("Games");
+        }
+
+        private void GetEndlessGames()
+        {
+            Games = new ObservableCollection<Game>(_repo.GetStateList(CompletionState.Endless));
+            FullList = Visibility.Collapsed;
+            RaisePropertyChanged("FullList");
+            RaisePropertyChanged("Games");
+        }
+        private void GetAllGames()
+        {
+            Games = new ObservableCollection<Game>(_repo.GetList());
+            FullList = Visibility.Visible;
+            RaisePropertyChanged("FullList");
+            RaisePropertyChanged("Games");
+        }
         #endregion
         private void ChangeStandardPath(string newPath = "")
         {
@@ -227,6 +308,8 @@ namespace GameListViewer.ViewModel
         private void UpdateStats()
         {
             UpdateCompletedGames();
+            UpdateEndlessGames();
+            UpdateNotCompletedGamesGames();
         }
 
         private void UpdateCompletedGames()
@@ -238,6 +321,39 @@ namespace GameListViewer.ViewModel
                     CompletedGames++;
             }
             RaisePropertyChanged("CompletedGames");
+        }
+
+        private void UpdateEndlessGames()
+        {
+            EndlessGames = 0;
+            foreach (Game game in AllGames)
+            {
+                if (game._State == CompletionState.Endless)
+                    EndlessGames++;
+            }
+            RaisePropertyChanged("EndlessGames");
+        }
+
+        private void UpdateNotCompletedGamesGames()
+        {
+            NotCompletedGames = 0;
+            foreach (Game game in AllGames)
+            {
+                if (game._State == CompletionState.NotCompleted)
+                    NotCompletedGames++;
+            }
+            RaisePropertyChanged("NotCompletedGames");
+        }
+
+        private void UpdatePlatformCounter()
+        {
+            PlatformCounter = 0;
+            foreach (var item in AllGames)
+            {
+                if (item._Platform == _searchPlatform)
+                    PlatformCounter++;
+            }
+            RaisePropertyChanged("PlatformCounter");
         }
 
         private void Sort()

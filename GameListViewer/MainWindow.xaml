@@ -51,16 +51,57 @@
             </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1.5*"/>
+                <RowDefinition Height="1*"/>
                 <RowDefinition Height="8*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                <TextBlock FontSize="16" Text="{Binding AllGames.Count, StringFormat=Total games:             {0}}"/>
-                <TextBlock FontSize="16" Text="{Binding CompletedGames, StringFormat=Completed games:   {0}}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" FontSize="16" Text="Total Games:"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" FontSize="16" Text="{Binding AllGames.Count}" Margin="20,0,0,0"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" FontSize="16" Text="Completed Games:"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" FontSize="16" Text="{Binding CompletedGames}" Margin="20,0,0,0"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" FontSize="16" Text="Endless Games:"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" FontSize="16" Text="{Binding EndlessGames}" Margin="20,0,0,0"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" FontSize="16" Text="Not Completed Games:"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" FontSize="16" Text="{Binding NotCompletedGames}" Margin="20,0,0,0"/>
+                </Grid>
+                <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox ItemsSource="{Binding Source={StaticResource Platform}}" SelectedItem="{Binding SearchPlatform, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding PlatformCounter}" VerticalAlignment="Center" FontSize="16" Margin="20,0,0,0"/>
+                </Grid>
+            </Grid>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Button Content="All Games" Command="{Binding AllGamesCMD}"/>
+                <Button Content="Completed Games" Command="{Binding CompletedGamesCMD}"/>
+                <Button Content="Not Completed Games" Command="{Binding NotCompletedGamesCMD}"/>
+                <Button Content="Endless Games" Command="{Binding EndlessGamesCMD}"/>
             </StackPanel>
-            <DataGrid Name="DataGrid1" Grid.Row="1" AutoGenerateColumns="false" ItemsSource="{Binding AllGames}" IsReadOnly="True" HorizontalAlignment="Stretch" FontSize="16">
+            <DataGrid Name="DataGrid1" Grid.Row="2" AutoGenerateColumns="false" ItemsSource="{Binding Games}" IsReadOnly="True" HorizontalAlignment="Stretch" FontSize="16">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="4*" CanUserSort="True" SortMemberPath="">
+                    <DataGridTemplateColumn Width="4*">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="Title"/>
                         </DataGridTemplateColumn.Header>
@@ -128,7 +169,7 @@
                         </DataGridTemplateColumn.HeaderStyle>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding _Platform, Converter={StaticResource EnumSpacer}}" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding _Platform}" HorizontalAlignment="Center"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -141,7 +182,7 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Grid.Row="2" Content="ADD GAME" Command="{Binding AddGame}"/>
+            <Button Grid.Row="3" Content="ADD GAME" Command="{Binding AddGame}" Visibility="{Binding FullList}"/>
         </Grid>
     </DockPanel>
 </Window>
